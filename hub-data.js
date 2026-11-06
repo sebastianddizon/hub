@@ -45,7 +45,7 @@ const BENTO = [
 ];
 const PANELS = [
   {key:"ops", name:"Run the week", nav:"Glosswerks", sub:"Glosswerks", c:"--c-ops", items:[
-    {t:"Ted & Me Scorecard", id:"WzBkkTuxhr9DSYQvZD34c5", i:"score", d:"What you and Ted each own, and how the week went", tag:"Friday"},
+    {t:"Owner Output Analysis", id:"WzBkkTuxhr9DSYQvZD34c5", i:"score", d:"What you and Ted each own, and how the week went", tag:"Friday"},
     {t:"Glosswerks Payroll", id:"HL3G926SeZZ57oUYrTmjPw", i:"pay", d:"Prep for your Sunday morning run in Gusto", tag:"Sunday"},
     {t:"Detail Tech Candidate Board", id:"96SthtusiWS24KdRrVDFTh", i:"hire", d:"Where each technician candidate stands", tag:"Hiring"},
     {t:"Glosswerks Books Backup", id:"CbyxTCLgxHm7tr62Jg7cSD", i:"backup", d:"Backup copy of the data behind the Ledger", tag:"As needed"}
@@ -77,7 +77,7 @@ const WEEK = [
   {d:"Mon", links:[["Glosswerks WBR","1d9tyM3mGY2KJwkuDh1MCc","Run the WBR meeting","chart","--c-ops"],["Growth Desk","FhRCAWYMMYDtMQnCWeyfGX","Marketing notes for the WBR","growth","--c-growth"]]},
   {d:"Tue", links:[["Ted and Eric 1:1","2SqebKaXgx8ijioMEcmRoT","Ted's weekly 1:1 with Eric","people","--c-ops"]]},
   {d:"Wed", links:[]},{d:"Thu", links:[]},
-  {d:"Fri", links:[["Ted & Me Scorecard","WzBkkTuxhr9DSYQvZD34c5","Close out the week","score","--c-ops"]]},
+  {d:"Fri", links:[["Owner Output Analysis","WzBkkTuxhr9DSYQvZD34c5","Close out the week","score","--c-ops"]]},
   {d:"Sat", links:[]}
 ];
 const FULL = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
