@@ -38,8 +38,10 @@
   --c-ops:#B8323A; --c-money:#16875A; --c-growth:#A86A06; --c-td:#2563B8; --c-me:#6A48C2;
 }}
 *{box-sizing:border-box}
-html,body{margin:0;height:100%}
-body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.45;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent;overscroll-behavior-y:none;-webkit-user-select:none;user-select:none}
+html,body{margin:0;height:100%;overflow:hidden}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.45;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none;
+  /* App shell: content scrolls inside .shell, the tab bar is its own row and never moves */
+  height:100vh;height:100dvh;display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(0,1fr) auto;grid-template-areas:"main" "tabs"}
 a{color:inherit;text-decoration:none}
 button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
 input{font:inherit;-webkit-user-select:text;user-select:text}
@@ -50,8 +52,8 @@ svg.i{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.9;stro
 .glow{position:fixed;inset:0;pointer-events:none;z-index:0;background:radial-gradient(600px 360px at 85% -5%,var(--red-glow),transparent 65%),radial-gradient(500px 360px at -10% 40%,color-mix(in srgb,var(--c-td) 10%,transparent),transparent 65%)}
 
 /* shell */
-.shell{position:relative;z-index:1;min-height:100%}
-.view{padding:calc(var(--sat) + 14px) max(18px,var(--sar)) calc(var(--tabh) + var(--sab) + 24px) max(18px,var(--sal));max-width:1000px;margin:0 auto;animation:fade .28s ease both}
+.shell{grid-area:main;position:relative;z-index:1;min-height:0;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
+.view{padding:calc(var(--sat) + 14px) max(18px,var(--sar)) 28px max(18px,var(--sal));max-width:1000px;margin:0 auto;animation:fade .28s ease both}
 @keyframes fade{from{opacity:.001;transform:translateY(6px)}}
 
 .vh{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin:6px 0 16px}
@@ -122,7 +124,7 @@ svg.i{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.9;stro
 .empty{padding:30px 10px;text-align:center;color:var(--ink3);font-size:14px}
 
 /* tab bar */
-.tabs{position:fixed;z-index:20;left:0;right:0;bottom:0;padding:6px max(10px,var(--sar)) calc(var(--sab) + 6px) max(10px,var(--sal));display:grid;grid-template-columns:repeat(4,1fr);background:color-mix(in srgb,var(--bg) 78%,transparent);backdrop-filter:blur(22px) saturate(1.5);-webkit-backdrop-filter:blur(22px) saturate(1.5);border-top:1px solid var(--edge)}
+.tabs{grid-area:tabs;position:relative;z-index:20;padding:6px max(10px,var(--sar)) calc(var(--sab) + 6px) max(10px,var(--sal));display:grid;grid-template-columns:repeat(4,1fr);background:color-mix(in srgb,var(--bg) 78%,transparent);backdrop-filter:blur(22px) saturate(1.5);-webkit-backdrop-filter:blur(22px) saturate(1.5);border-top:1px solid var(--edge)}
 .tabs button{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;min-height:52px;color:var(--ink3);font-size:11px;font-weight:600;letter-spacing:.02em;border-radius:14px;transition:color .15s,transform .12s}
 .tabs button:active{transform:scale(.94)}
 .tabs button svg{width:23px;height:23px}
@@ -146,18 +148,19 @@ svg.i{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.9;stro
 }
 /* side rail: inner landscape, or outer landscape where height is short */
 @media (min-width:820px), (max-height:440px) and (min-width:520px){
-  .tabs{top:0;right:auto;width:calc(88px + var(--sal));grid-template-columns:1fr;grid-auto-rows:min-content;align-content:start;gap:6px;padding:calc(var(--sat) + 12px) 10px calc(var(--sab) + 12px) max(10px,var(--sal));border-top:0;border-right:1px solid var(--edge)}
+  body{grid-template-columns:auto minmax(0,1fr);grid-template-rows:minmax(0,1fr);grid-template-areas:"tabs main"}
+  .tabs{width:calc(88px + var(--sal));overflow-y:auto;grid-template-columns:1fr;grid-auto-rows:min-content;align-content:start;gap:6px;padding:calc(var(--sat) + 12px) 10px calc(var(--sab) + 12px) max(10px,var(--sal));border-top:0;border-right:1px solid var(--edge)}
   .tabs button{min-height:60px}
   .tabs button[aria-current="page"]{background:var(--raise)}
   .tabs button[aria-current="page"]::after{top:18px;bottom:18px;left:-10px;right:auto;width:3px;height:auto}
   .brand{display:grid;place-items:center;width:44px;height:44px;margin:0 auto 10px;border-radius:12px;background:linear-gradient(145deg,#C3343B,#7E1B21);font-family:var(--display);font-stretch:70%;font-weight:900;color:#FAFAFA;font-size:16px;box-shadow:0 8px 20px -6px var(--red-glow)}
-  .view{padding-left:calc(88px + var(--sal) + 24px);padding-bottom:calc(var(--sab) + 32px);padding-right:max(24px,var(--sar))}
+  .view{padding-left:24px;padding-bottom:calc(var(--sab) + 32px);padding-right:max(24px,var(--sar))}
 }
 @media (max-height:440px) and (min-width:520px){
   .tabs{width:calc(72px + var(--sal));gap:2px}
   .tabs button{min-height:48px;font-size:10px}
   .brand{display:none}
-  .view{padding-left:calc(72px + var(--sal) + 18px);padding-top:calc(var(--sat) + 10px)}
+  .view{padding-left:18px;padding-top:calc(var(--sat) + 10px)}
   .greet{font-size:44px}
   .cols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;align-items:start}
   .cols .label:first-child{margin-top:0}
@@ -247,18 +250,18 @@ function renderSearch(){
 
 /* ---- tabs ---- */
 const TABS=[["today","Today","sun"],["tools","Tools","grid"],["shelf","Shelf","books"],["search","Search","search"]];
-const tabs=document.getElementById("tabs");
+const tabs=document.getElementById("tabs"), shell=document.querySelector(".shell");
 tabs.insertAdjacentHTML("beforeend", TABS.map(t=>`<button type="button" data-tab="${t[0]}">${svg(t[2])}<span>${t[1]}</span></button>`).join(""));
 function go(tab, focus){
   TABS.forEach(t=>document.getElementById("v-"+t[0]).hidden = t[0]!==tab);
   tabs.querySelectorAll("button").forEach(b=>b.toggleAttribute("aria-current",false)||b.dataset.tab===tab&&b.setAttribute("aria-current","page"));
   try{ localStorage.setItem("hub-tab",tab); }catch(e){}
-  window.scrollTo(0,0);
+  shell.scrollTop=0;
   if(tab==="today") renderToday();
   if(tab==="search" && focus){ const q=document.getElementById("q"); q && setTimeout(()=>q.focus(),60); }
 }
 tabs.addEventListener("click",e=>{ const b=e.target.closest("button[data-tab]"); if(!b) return;
-  if(b.getAttribute("aria-current")==="page"){ window.scrollTo({top:0,behavior:"smooth"}); return; }
+  if(b.getAttribute("aria-current")==="page"){ shell.scrollTo({top:0,behavior:"smooth"}); return; }
   go(b.dataset.tab, true); });
 
 renderToday(); renderTools(); renderShelf(); renderSearch();
